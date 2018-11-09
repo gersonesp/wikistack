@@ -12,6 +12,10 @@ app.use(express.static(__dirname + "/public"));
 
 app.use('/wiki', wikiRouter);
 
+app.get('/', function(req, res, next) {
+    res.redirect('/wiki')
+})
+
 models.db.authenticate().
 then(() => {
   console.log('connected to the database');

@@ -1,20 +1,33 @@
 const express = require('express');
 const router = express.Router();
 const layout = require('../views/layout');
+const models = require('../models')
+const Page = models.Page;
+const addPage = require('../views/addPage');
 
-router.get('/', function(req, res) {
+
+router.get('/', function(req, res, next) {
     console.log('This will get all wiki pages');
     res.send(layout());
 })
 
-router.post('/', function(req, res) {
-    console.log('This will submit a new page to the database');
-    res.send(layout());
+router.post('/', async function(req, res, next) {
+    const page = new Page({
+        title: req.body.title,
+        content: req.body.content
+    })
+    
+    try {
+        await page.save();
+        res.redirect('/');
+    } catch (error) {
+        next(error)
+    }
 })
 
-router.get('/add', function(req, res) {
+router.get('/add', function(req, res, next) {
     console.log('This will retrive add page');
-    res.send(layout());
+    res.send(addPage());
 })
 
 module.exports = router;
