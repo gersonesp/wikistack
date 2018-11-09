@@ -16,13 +16,14 @@ router.post('/', async function(req, res, next) {
         title: req.body.title,
         content: req.body.content
     })
-    
+
     try {
         await page.save();
+        console.log(page);
         res.redirect('/');
     } catch (error) {
         next(error)
-    }
+    }  
 })
 
 router.get('/add', function(req, res, next) {
@@ -31,3 +32,4 @@ router.get('/add', function(req, res, next) {
 })
 
 module.exports = router;
+
